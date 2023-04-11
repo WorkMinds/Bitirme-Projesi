@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+    <style>
+        /* Add padding to containers */
+.container {
+    padding: 16px;
+    text-align: center;
+  }
+  
+  /* Full-width input fields */
+  input[type=text], input[type=password] {
+    width: 40%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: 2px solid black;
+    background: white;
+  }
+  
+  input[type=text]:focus, input[type=password]:focus {
+    background-color: white;
+    outline: none;
+  }
+  
+  /* Overwrite default styles of hr */
+  hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+  }
+  
+  /* Set a style for the submit/register button */
+  .registerbtn {
+    background-color: none;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 40%;
+    opacity: 0.9;
+  }
+  
+  .registerbtn:hover {
+    opacity:1;
+  }
+  
+  .regwarning{
+    color: red;
+  }
+  /* Add a blue text color to links */
+  a {
+    color: dodgerblue;
+  }
+  
+  /* Set a grey background color and center the text of the "sign in" section */
+  .signin {
+    background-color: #f1f1f1;
+    text-align: center;
+  }
+    </style>
+{% endblock css %}
+    
+
+{% block body %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="container">
+      <h1>Register</h1>
+      <hr>
+      
+      {% if messages %}
+      <ul>
+        {% for i in messages %}
+           <li class="regwarning">{{ i }}</li>
+        {% endfor %}
+      </ul>    
+      {% endif %}
+        
+  
+      <label for="username"><b>Name</b></label>
+      <input type="text" placeholder="Name" name="name" id="name" required>
+
+      <label for="username"><b>Surname</b></label>
+      <input type="text" placeholder="Surname" name="surname" id="surname" required>
+
+      <label for="username"><b>Email</b></label>
+      <input type="text" placeholder="Email" name="email" id="email" required>
+
+      <label for="username"><b>Username</b></label>
+      <input type="text" placeholder="Username" name="username" id="username" required>
+  
+      <label for="password"><b>Password</b></label>
+      <input type="password" placeholder="Password" name="password1" id="password1" required>
+
+      <label for="password"><b>Re-Password</b></label>
+      <input type="password" placeholder="Re-Password" name="password2" id="password2" required>
+  
+      <hr>
+      <button type="submit" class="registerbtn">Register</button>
+    </div>
+  
+   
+  </form>
+    
+{% endblock body %}
+    

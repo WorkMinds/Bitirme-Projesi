@@ -1,0 +1,85 @@
+{% load static %}
+<div id="header-wrap">
+	
+	<!--top-content-->
+
+	<header id="header">
+		<div class="container">
+         <div class="row">
+
+				<div class="col-md-2">
+					<div class="main-logo">
+						<a href="{% url 'index' %}"><img src="{% static 'images/main-logo.png' %}" alt="logo"></a>
+					</div>
+
+				</div>
+
+				<div class="col-md-10">
+					
+					<nav id="navbar">
+						<div class="main-menu stellarnav">
+							<ul class="menu-list ">
+								<li class="menu-item active"><a href="{% url 'index' %}" data-effect="Home">Home</a></li>
+								<li class="menu-item"><a href="{% url 'About' %}" class="nav-link" data-effect="About">About</a></li>
+								
+			
+								<li class="menu-item"><a href="{% url 'Shop' %}" class="nav-link" data-effect="Shop">Shop</a></li>
+								<!-- <li class="menu-item"><a href="#latest-blog" class="nav-link" data-effect="Articles">Articles</a></li> -->
+								<li class="menu-item"><a href="{% url 'Contact' %}" class="nav-link" data-effect="Contact">Contact</a></li>
+								<!-- <li><a href="#" class="user-account for-buy"><i class="icon icon-user"></i><span>Account</span></a></li> -->
+								
+						
+
+                        
+                        {% if request.user.is_authenticated %}
+						<li><a href="{% url 'ShopBasket' %}" class="cart for-buy"><i class="icon icon-clipboard"></i><span>Cart</span></a></li>
+                        <li class="menu-item has-sub">
+							        
+									<a href="#" class="nav-link" data-effect="Pages">{{ request.user }}</a>
+
+									<ul>
+										
+								        <li><a href="{% url 'profilUser' %}">Profil</a></li>
+								        <li><a href="{% url 'changePassword' %}">Change Password</a></li>
+								        <li><a href="{% url 'logoutUser' %}">Log Out</a></li>
+								        <!-- <li><a href="about.html">About</a></li>
+								        <li><a href="styles.html">Styles</a></li>
+								        <li><a href="blog.html">Blog</a></li>
+								        <li><a href="single-post.html">Post Single</a></li>
+								        <li><a href="shop.html">Our Store</a></li>
+								        <li><a href="single-product.html">Product Single</a></li>
+								        <li><a href="contact.html">Contact</a></li>
+								        <li><a href="thank-you.html">Thank You</a></li> -->
+								     </ul>
+
+								</li>
+                        {% else %}
+                        
+								<li class="menu-item"><a href="{% url 'loginUser' %}" class="nav-link" data-effect="Login">Login</a></li>
+								<li class="menu-item"><a href="{% url 'registerUser' %}" class="nav-link" data-effect="Register">Register</a></li>
+                        {% endif %}
+                           
+						<form method="GET" class="example" action="{% url 'Shop' %}">
+							<input style="width: 20%;" type="text" placeholder="Search.." name="query">
+							<button style="height: fit-content; padding: 12px;" type="submit"><i class="fa fa-search"></i></button>
+						  </form>
+
+
+							</ul>
+
+							<div class="hamburger">
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				            </div>
+
+						</div>
+					</nav>
+
+				</div>
+
+			</div>
+		</div>
+	</header>
+		
+</div><!--header-wrap-->

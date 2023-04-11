@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+	<style>
+		.checked {
+			color: orange;
+		  }
+		.icon-shape {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			vertical-align: middle;
+		}
+		
+		.icon-sm {
+			width: 2rem;
+			height: 2rem;
+			
+		}
+		.card {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			min-width: 0;
+			padding: 20px;
+			width: 100%;
+			word-wrap: break-word;
+			background-color: #f3f2ec;
+			background-clip: border-box;
+			border-radius: 6px;
+			-moz-box-shadow: 0px 0px 5px 0px rgba(212, 182, 212, 1)
+		}
+		
+		.comment-box{
+			
+			padding:5px;
+		}
+		
+		
+		
+		.comment-area textarea{
+		   resize: none; 
+				
+		}
+		
+		
+		.form-control:focus {
+			color: #495057;
+			background-color: #fff;
+			border-color: #ffffff;
+			outline: 0;
+			box-shadow: 0 0 0 1px rgb(255, 123, 0) !important;
+		}
+		
+		.send {
+			color: #fff;
+			background-color: #ffd900;
+			border-color: #ffd900;
+		}
+		
+		.send:hover {
+			color: #fff;
+			background-color: #f50202;
+			border-color: #f50202;
+		}
+		
+		
+		.rating {
+		    display: flex;
+		    margin-top: -10px;
+			flex-direction: row-reverse;
+			margin-left: -4px;
+			float: left;
+			
+			
+		}
+		
+		.rating>input {
+			display: none
+		}
+
+		.star,.star-full{
+			position: relative;
+			width: 30px;
+			font-size: 30px;
+			color: red;
+			cursor: pointer;
+		}
+
+		.star-full::before{
+			content: "\2605";
+			position: absolute;
+			opacity: 1;
+		}
+		
+		.rating>label {
+			position: relative;
+			width: 30px;
+			font-size: 30px;
+			color: red;
+			cursor: pointer;
+			
+		}
+		
+		.rating>label::before {
+			content: "\2605";
+			position: absolute;
+			opacity: 0
+		}
+		
+		.rating>label:hover:before,
+		.rating>label:hover~label:before {
+			opacity: 1 !important
+		}
+		
+		.rating>input:checked~label:before {
+			opacity: 1
+		}
+		
+		.rating:hover>input:checked~label:before {
+			opacity: 0.4
+		}
+	</style>
+{% endblock css %}
+	
+
+{% block body %}
+
+<section class="bg-sand padding-large">
+	<div class="container">
+		<div class="row">
+			
+			{% for i in product.images.all  %}
+			<div class="col-md-6">
+				<a href="#" class="product-image"><img style="width: 50%;" src="{{ i.image.url }}"></a>
+			</div>
+
+			
+			{% endfor %}
+			
+			<form method="POST" class="col-md-6 pl-5">
+				{% csrf_token %}
+				<div class="product-detail">
+					<h1>{{ product.product.title }}</h1>
+					<span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+					<span>Rating {{ product.product.stars }} | {{ comments|length }} Comments</span>
+					<p>Kategori: {{ product.product.category.title }}</p>
+					<p>Yazar: {{ product.product.writer }}</p>
+					<span style="font-size: 22px; color: red;" class="price colored">Fiyat: ₺{{ product.product.price }}</span>
+					
+
+					<p>Açıklama: {{ product.product.text }}</p>
+					<p>Özellikler: {{ product.product.detail }}</p>
+					
+					{% if request.user.is_authenticated %}
+					<button type="submit" name="submit" value="buy" class="btn btn-warning">Add to cart</button>         
+                     
+					<label class="d-inline-block ms-3">Adet:</label>
+					<input type="number" min="1" max="20" name="amount" value="1" class="form-control w-25 d-inline-block " id="input1" >
+						
+					{% else %}
+					<div class="row">
+						<div class="col d-grid">
+							<a class="btn btn-success" style="box-shadow: none;" href="{% url 'loginUser' %}">Login</a>
+						</div>
+						<div class="col d-grid">
+							<a class="btn btn-success" style="box-shadow: none;" href="{% url 'registerUser' %}">Register</a>
+						</div>
+					</div>
+						
+					{% endif %}	
+					
+				</div>
+			</form>	
+		</div>
+	</div>
+</section>
+
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<h4 style="font-size: 24px; font-weight: bold;">Yorumlar</h4>
+			<div class="card">
+				
+				{% for i in comments  %}
+				<div class="row">	
+					<div class="col-2 d-flex flex-column align-items-center">
+						<img src="https://i.imgur.com/xELPaag.jpg" width="70%" class="rounded-circle mt-2">
+						<h4 style="font-size: 20px; font-weight: bold;" class="pt-3">{{ i.user }}</h4>
+					</div>
+					
+					<div class="col-10">
+						<div class="comment-box ml-2">											
+							<div class="rating"> 
+
+							{% for j in "54321"|make_list %}
+							
+								{% if j|add:"0" > i.star %}
+									<div class="star">☆</div>
+								{% else %}
+									<div class="star-full">☆</div>
+								{% endif %}
+										
+							{% endfor %}
+								<!-- <p class="star">☆</p>
+								<p class="star">☆</p>
+								<p class="star-full">☆</p>
+								<p class="star-full">☆</p>
+								<p class="star-full">☆</p> -->
+								
+							</div>
+							<hr class="mb-0" style="visibility: hidden;">
+							<div class="comment-area ms-2 d-flex justify-content-between">	
+								<p>{{ i.text }}</p>
+								<span>{{ i.date_now }}</span>				
+							</div>
+							
+						
+						</div>
+					</div>
+				
+				</div>
+				
+				{% endfor %}
+					  
+	  
+			</div>
+		</div>
+		<h4 style="font-size: 24px; font-weight: bold;">Yorum Ekle</h4>
+		<div class="col-12">
+			<div class="card">  
+				<div class="row">	
+					<div class="col-2 d-flex flex-column align-items-center">
+						<img src="https://i.imgur.com/xELPaag.jpg" width="70%" class="rounded-circle mt-2">
+						<h4 style="font-size: 20px; font-weight: bold;" class="pt-3">{{ request.user }}</h4>
+					</div>
+					
+					<div class="col-10">
+						<form method="POST" class="comment-box ml-2">		
+							{% csrf_token %}
+							<div class="rating"> 
+								<input type="radio" name="star" value="5" id="5"><label for="5">☆</label>
+								<input type="radio" name="star" value="4" id="4"><label for="4">☆</label> 
+								<input type="radio" name="star" value="3" id="3"><label for="3">☆</label>
+								<input type="radio" name="star" value="2" id="2"><label for="2">☆</label>
+								<input type="radio" name="star" value="1" id="1"><label for="1">☆</label>
+							</div>
+							
+							<div class="comment-area">	
+								<textarea style="height: auto;" class="form-control" name="text" placeholder="Yorumunuz..." rows="4"></textarea>				
+							</div>
+							
+							<div class="comment-btns mt-2">				
+								<div class="row">				
+									<div class="col-6">				
+										<div class="pull-left">						
+										    <button type="submit" style="font-size: 15px; letter-spacing: 1px;" name="submit" value="comment" class="btn btn-warning ms-2 ">Paylaş</button>      				
+										</div>				
+									</div>
+									
+								</div>
+							</div>
+						</form>
+					</div>
+				
+				</div>
+	  
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock body %}
+	

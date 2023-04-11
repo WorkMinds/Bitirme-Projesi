@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<title>Book Store</title>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="format-detection" content="telephone=no">
+	    <meta name="apple-mobile-web-app-capable" content="yes">
+	    <meta name="author" content="">
+	    <meta name="keywords" content="">
+	    <meta name="description" content="">
+        
+        <!-- Font Awesome -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+		
+        <!-- MDB -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet"/>
+	    <link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
+	    <link rel="stylesheet" type="text/css" href="{% static 'icomoon/icomoon.css' %}">
+	    <link rel="stylesheet" type="text/css" href="{% static 'css/vendor.css' %}">
+	    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+		
+	    
+        
+        
+        
+
+		<!-- script
+		================================================== -->
+		
+
+	</head>
+
+<body>
+
+    
+    {% block css %}
+        
+    {% endblock css %}
+        
+ 
+        
+
+    {% include 'part/_header.html' %}
+
+    {% block body %}
+        
+    {% endblock body %}
+    
+    {% include 'part/_footer.html' %}
+
+
+<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+></script>
+
+<script src="{% static 'js/modernizr.js' %}"></script>
+<script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+<script src="{% static 'js/plugins.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+
+    
+</body>
+
+</html>	

@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+<style>
+  .btn-link:hover{
+    background-color: white;
+  }
+</style>
+    
+{% endblock css %}
+    
+
+{% block body %}
+<section class="h-100" style="background-color: #f3f2ec;">
+  <div class="container h-100 py-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <form method="POST" class="col-10">
+        {% csrf_token %}
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h3 class="fw-normal mb-0 text-black mb-4">Shopping Cart</h3>
+          <div class="ms-5">
+            <input style="box-shadow: none; border-radius: 10px;" class="btn btn-success" type="submit" value="Güncelle">
+          </div>
+          <div>
+            <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!" class="text-body">price <i
+                  class="fas fa-angle-down mt-1"></i></a></p>
+          </div>
+        </div>
+         
+      
+          
+        <div class="card rounded-3 mb-4">
+          <div class="card-body p-4">
+            
+            {% for i in shopbasket %}
+            <div class="row d-flex justify-content-between align-items-center mb-4">
+              <div class="col-md-2 col-lg-2 col-xl-2">
+                <a href="{% url 'ShopDetail' i.product_basket.product.slug %}"><img
+                  src="{{ i.product_basket.product.image.url }}"
+                  class="img-fluid rounded-3" alt="Cotton T-shirt"></a>
+                
+              </div>
+              <div class="col-md-3 col-lg-3 col-xl-3 mt-2">
+                <p class="lead fw-normal">{{ i.product_basket.product.title }}</p>
+                <p class="mb-0"><span class="text-muted">Category: </span>{{ i.product_basket.product.category }}</p>
+                <p><span class="text-muted">Writer: </span>{{ i.product_basket.product.writer }}</p> 
+                
+              </div>
+              <div class="col-md-3 col-lg-3 col-xl-2 d-flex mt-2">
+                
+                <button type="button" class="btn btn-link"
+                  onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                  <i class="fas fa-minus"></i>
+                </button>
+                
+                
+                <input id="form{{ i.id }}" min="0" name="amount{{ i.id }}" value="{{ i.amount }}" type="number"
+                  class="form-control form-control-sm mt-4 w-50 text-center " />
+                  
+
+                <button type="button" class="btn btn-link"
+                  onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                  <i class="fas fa-plus"></i>
+                </button>
+
+               
+               
+              </div>
+              
+              
+              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1 d-flex justify-content-center">
+                <h5 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 18px;" class="mb-0">{{ i.price_total }}</h5>
+              </div>
+              <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                <a href="{% url 'ShopBasketDelete' i.id %}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+              </div>
+            </div>
+            
+            {% endfor %}
+              
+          </div>
+        </div>
+
+       
+
+
+        <div class="card mb-4">
+          <div class="card-body p-4 d-flex flex-row">
+            <h4 style="font-size: 20px;" class="mb-0">Summary</h4>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              
+              {% for i in shopbasket %}
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                {{ i.product_basket.product.title }} - {{ i.product_basket.product.category }} - {{ i.product_basket.product.writer }}
+                <span>{{ i.price_total }}</span>
+              </li>
+              
+              {% endfor %}
+                
+              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                TOTAL
+                <span>+</span>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                <div>
+                  <strong>Total amount</strong>
+                  <strong>
+                    <p class="mb-0">(including VAT)</p>
+                  </strong>
+                </div>
+                <span><strong>{{ toplam }}</strong></span>
+              </li>
+            </ul>
+
+            <button type="button" class="btn btn-warning btn-lg btn-block">
+              Go to checkout
+            </button>
+          </div>
+        </div>
+
+     
+
+      </form>
+    </div>
+  </div>
+</section>
+    
+{% endblock body %}
+    
