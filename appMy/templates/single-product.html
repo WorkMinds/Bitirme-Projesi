@@ -197,7 +197,7 @@
 					</div>
 					
 					<div class="col-10">
-						<div class="comment-box ml-2">											
+						<div class="comment-box ml-2 ">											
 							<div class="rating"> 
 
 							{% for j in "54321"|make_list %}
@@ -209,17 +209,14 @@
 								{% endif %}
 										
 							{% endfor %}
-								<!-- <p class="star">☆</p>
-								<p class="star">☆</p>
-								<p class="star-full">☆</p>
-								<p class="star-full">☆</p>
-								<p class="star-full">☆</p> -->
+						
 								
 							</div>
-							<hr class="mb-0" style="visibility: hidden;">
+							<span class="d-flex justify-content-end">{{ i.date_now }}</span>
+							<hr class="mb-0 mt-3" style="visibility: visible; border: 1px solid black;">
 							<div class="comment-area ms-2 d-flex justify-content-between">	
 								<p>{{ i.text }}</p>
-								<span>{{ i.date_now }}</span>				
+												
 							</div>
 							
 						
@@ -229,8 +226,25 @@
 				</div>
 				
 				{% endfor %}
-					  
-	  
+				
+				
+			</div>
+			<div class="pagination">
+				<span class="step-links">
+					{% if comments.has_previous %}
+						<a href="?page=1">&laquo; first</a>
+						<a href="?page={{ comments.previous_page_number }}">previous</a>
+					{% endif %}
+			
+					<span class="current">
+						Page {{ comments.number }} of {{ comments.paginator.num_pages }}.
+					</span>
+			
+					{% if comments.has_next %}
+						<a href="?page={{ comments.next_page_number }}">next</a>
+						<a href="?page={{ comments.paginator.num_pages }}">last &raquo;</a>
+					{% endif %}
+				</span>
 			</div>
 		</div>
 		<h4 style="font-size: 24px; font-weight: bold;">Yorum Ekle</h4>

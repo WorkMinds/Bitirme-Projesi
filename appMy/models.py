@@ -66,3 +66,15 @@ class Comment(models.Model):
     text = models.TextField(("Yorum"),max_length=800)
     date_now = models.DateTimeField(("Tarih ve Saat"), auto_now_add=True)
     star = models.IntegerField(("Yorum Puanı"),default=5)
+
+# USER MODELİ
+class UserInfo(models.Model):
+    user = models.ForeignKey(User, verbose_name=("Kullanıcı"), on_delete=models.CASCADE)
+    password = models.CharField(("Şifre"), max_length=50)
+    image = models.FileField(("Resim"), upload_to=None, max_length=100)
+    job = models.CharField(("İş"), max_length=50)
+    phone = models.CharField(("Telefon Numarası"), max_length=50)
+    address = models.CharField(("Adres"), max_length=50,null=True,blank=True)
+
+    def __str__(self):
+        return self.user.username

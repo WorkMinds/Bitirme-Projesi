@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import *
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -91,9 +92,14 @@ def ShopDetail(request,slug):
             book.stars = round(puan/len(comments),1)
             book.save()
 
-           
-            
             return redirect('/ShopDetail/'+ slug + '/')
+    
+    paginator = Paginator(comments, 3)  # Show 25 contacts per page.
+
+    page_number = request.GET.get("page")
+    comments = paginator.get_page(page_number)
+    
+        
 
         
         
@@ -254,6 +260,51 @@ def profilUser(request):
     context= {}
 
     user = User.objects.get(username=request.user)
+    userinfo = UserInfo.objects.get(user=user)
+    
+    if request.method == "POST":
+    # Profil Değiştirme Kısmı
+        if request.POST["changebutton"] == "profilchange":
+            password = request.POST["password"]
+            if user.check_password(password):
+                username = request.POST["username"]
+                job = request.POST["job"]
+                image = request.FILES["image"]
 
-    context.update({"user":user})
+                user.username = username 
+                user.save()
+                userinfo.job = job
+                userinfo.image = image
+                userinfo.save()
+                return redirect('profilUser')
+    # İsim Değiştirme Kısmı
+        if request.POST["changebutton"] == "namechange":
+            name = request.POST["name"]
+            surname = request.POST["surname"]
+            user.first_name = name
+            user.last_name = surname
+            user.save()
+            return redirect('profilUser')
+    # Mail Değiştirme Kısmı
+        if request.POST["changebutton"] == "mailchange":
+            password = request.POST["password"]
+            if user.check_password(password):
+                email = request.POST["email"]
+                user.email = email
+                user.save()
+                return redirect('profilUser')
+    # Telefon Değiştirme Kısmı
+        if request.POST["changebutton"] == "phonechange":
+            password = request.POST["password"]
+            if user.check_password(password):
+                phone = request.POST["phone"]
+                userinfo.phone = phone
+                userinfo.save()
+                return redirect('profilUser')
+    
+
+    context.update({
+        "user":user,
+        "userinfo":userinfo,
+    })
     return render(request,'user/profil.html',context)

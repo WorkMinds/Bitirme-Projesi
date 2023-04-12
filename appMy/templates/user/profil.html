@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
+ 
 {% block css %}
     <style>
         .gradient-custom {
@@ -28,22 +28,77 @@
             <div class="row g-0">
               <div class="col-md-4 gradient-custom text-center text-white"
                 style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                  alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                <img src="{{ userinfo.image.url }}"
+                  alt="Avatar" class="img-fluid my-5" style="width: 80px; object-fit: cover;" />
                 <h5 style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 25px;">{{ user.username }}</h5>
-                <p>Web Designer</p>
-                <i class="far fa-edit mb-5"></i>
+                <p>{{ userinfo.job }}</p>
                 
+                <div class="col">
+                  <!-- Button trigger modal -->
+                  <button style="font-size: 17px; letter-spacing: 2px;" type="button" class="btn btn-success m-0 mt-5" data-mdb-toggle="modal" data-mdb-target="#ProfilModal">
+                      Edit
+                  </button>
+                  
+                  <!-- Modal -->
+                  <div class="modal fade" id="ProfilModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel" style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 20px;">Profil Edit</h5>
+                          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              <form method="POST" enctype="multipart/form-data">
+                                  {% csrf_token %}
+                                  <input style="border: 2px solid black;" type="file" name="image" class="form-control" id="">
+                                  <input type="text" name="username" value="{{ user.username }}" id="" class="form-control" placeholder="New Username">
+                                  <input type="text" name="job" value="{{ userinfo.job }}" id="" class="form-control" placeholder="New Job">
+                                  <input type="password" name="password" id="" class="form-control" placeholder="Şifre">
+                                  <button type="submit" name="changebutton" value="profilchange" class="btn btn-warning" style="letter-spacing: 2px;">Save Changes</button>
+                              </form>
+                          </div>
+                      </div>
+                      </div>
+                  </div>
+              </div>
+                 
               </div>
               <div class="col-md-8">
                 <div class="card-body p-4">
                   <h6 style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 20px;">Information</h6>
                   <hr class="mt-0 mb-4">
                   <div class="row pt-1">
-                    <div class="col-12 mb-2">
+                    <div class="col-10 mb-2">
                       <h6 style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 20px;">Full Name</h6>
                       <p class="text-muted">{{ user.get_full_name }}</p>
                     </div>
+                    <div class="col-2">
+                      <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-warning m-0" data-mdb-toggle="modal" data-mdb-target="#modalName">
+                          +
+                      </button>
+                      
+                      <!-- Modal -->
+                      <div class="modal fade" id="modalName" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel" style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 20px;">Name change</h5>
+                              <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                  <form method="POST">
+                                      {% csrf_token %}
+                                      <input type="text" name="name" id="" class="form-control" placeholder="New Name">
+                                      <input type="text" name="surname" id="" class="form-control" placeholder="New Surname">
+                                      
+                                      <button type="submit" name="changebutton" value="namechange" class="btn btn-warning" style="letter-spacing: 2px;">Save Changes</button>
+                                  </form>
+                              </div>
+                          </div>
+                          </div>
+                      </div>
+                  </div>
                     <div class="col-10 mb-2">
                       <h6 style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 20px;">Email</h6>
                       <p class="text-muted">{{ user.email }}</p>
@@ -64,19 +119,46 @@
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST">
-                                        <input type="email" name="" id="" class="form-control" placeholder="New Email">
-                                        <input type="password" name="" id="" class="form-control" placeholder="Password">
-                                        <button type="submit" class="btn btn-warning" style="letter-spacing: 2px;">Save Changes</button>
+                                        {% csrf_token %}
+                                        <input type="email" name="email" id="" class="form-control" placeholder="New Email">
+                                        <input type="password" name="password" id="" class="form-control" placeholder="Password">
+                                        <button type="submit" name="changebutton" value="mailchange" class="btn btn-warning" style="letter-spacing: 2px;">Save Changes</button>
                                     </form>
                                 </div>
                             </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 mb-2">
+                    <div class="col-10 mb-2">
                       <h6 style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 20px;">Phone</h6>
-                      <p class="text-muted">123 456 789</p>
+                      <p class="text-muted">(+90) {{ userinfo.phone }}</p>
                     </div>
+                    <div class="col-2">
+                      <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-warning m-0" data-mdb-toggle="modal" data-mdb-target="#modalPhone">
+                          +
+                      </button>
+                      
+                      <!-- Modal -->
+                      <div class="modal fade" id="modalPhone" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel" style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 20px;">Phone change</h5>
+                              <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                  <form method="POST">
+                                      {% csrf_token %}
+                                      <input type="tel" name="phone" id="" class="form-control" placeholder="New Phone">
+                                      <input type="password" name="password" id="" class="form-control" placeholder="Password">
+                                      <button type="submit" name="changebutton" value="phonechange" class="btn btn-warning" style="letter-spacing: 2px;">Save Changes</button>
+                                  </form>
+                              </div>
+                          </div>
+                          </div>
+                      </div>
+                  </div>
                   </div>
                   
                   <hr class="mt-0 mb-4">

@@ -32,6 +32,9 @@ class CommentAdmin(admin.ModelAdmin):
     '''Admin View for '''
     list_display = ('user','product','star','date_now','id')
 
+admin.site.register(UserInfo)
+
+
     
 
      
