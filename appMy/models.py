@@ -67,14 +67,22 @@ class Comment(models.Model):
     date_now = models.DateTimeField(("Tarih ve Saat"), auto_now_add=True)
     star = models.IntegerField(("Yorum Puanı"),default=5)
 
-# USER MODELİ
+# USER MODELİ(Profil)
 class UserInfo(models.Model):
     user = models.ForeignKey(User, verbose_name=("Kullanıcı"), on_delete=models.CASCADE)
     password = models.CharField(("Şifre"), max_length=50)
-    image = models.FileField(("Resim"), upload_to=None, max_length=100)
-    job = models.CharField(("İş"), max_length=50)
-    phone = models.CharField(("Telefon Numarası"), max_length=50)
+    image = models.FileField(("Resim"), upload_to=None, max_length=100,default='None/default.png')
+    job = models.CharField(("İş"), max_length=50,default="-")
+    phone = models.CharField(("Telefon Numarası"), max_length=50,default="-")
     address = models.CharField(("Adres"), max_length=50,null=True,blank=True)
 
     def __str__(self):
         return self.user.username
+
+class Contact(models.Model):
+    name = models.CharField(("İsim"), max_length=50)
+    email = models.EmailField(("Mail"), max_length=254)
+    text = models.CharField(("Konu"), max_length=50)
+
+    def __str__(self):
+        return self.name

@@ -33,6 +33,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('user','product','star','date_now','id')
 
 admin.site.register(UserInfo)
+admin.site.register(Contact)
 
 
     

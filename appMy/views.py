@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect,get_object_or_404,HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -24,8 +24,18 @@ def About(request):
     context={}
     return render(request,'about.html',context)
 
-def Contact(request):
+def ContactUs(request):
     context={}
+    if request.method == "POST":
+        name = request.POST["name"]
+        email = request.POST["email"]
+        text = request.POST["text"]
+
+        contact = Contact(name=name,email=email,text=text)
+        contact.save()
+        return HttpResponseRedirect("/#contact")
+
+
     return render(request,'contact.html',context)
 
 def Shop(request):
@@ -214,6 +224,9 @@ def registerUser(request):
                                                         last_name = surname)
             
                         user.save()
+
+                        userinfo = UserInfo(user=user,password=password1)
+                        userinfo.save()
                         return redirect('loginUser')
                     else:
                         messages.warning(request,"Aynı email'e sahip bir kullanıcı mevcut!")

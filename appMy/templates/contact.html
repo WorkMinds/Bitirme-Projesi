@@ -50,7 +50,8 @@
 				
 				<div class="contact-information">
 					<h2>Send A Message</h2>
-					<form name="contactform" action="contact.php" method="post" class="contact-form d-flex flex-wrap mt-4">
+					<form name="contactform"  method="POST" class="contact-form d-flex flex-wrap mt-4">
+						{% csrf_token %}
 						<div class="row">
 					    	<div class="col-md-6">
 								<input type="text" minlength="2" name="name" placeholder="Name" class="u-full-width" required>
@@ -63,7 +64,7 @@
 						<div class="row">
 							<div class="col-md-12">
 
-								<textarea class="u-full-width" name="message" placeholder="Message" style="height: 150px;" required></textarea>
+								<textarea class="u-full-width" name="text" placeholder="Message" style="height: 150px;" required></textarea>
 
 								<label>
 								    <input type="checkbox" required>
